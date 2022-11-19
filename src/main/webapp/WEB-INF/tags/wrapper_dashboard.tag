@@ -16,10 +16,10 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <meta name="description" content="">
         <meta name="author" content="">
-        <title>${title} | Salesfuse</title>
+        <title>${title}</title>
 
         <!-- App favicon -->
-        <link rel="shortcut icon" href="${pageContext.request.contextPath}/resources/assets/images/favicon.png">
+        <!--<link rel="shortcut icon" href="${pageContext.request.contextPath}/resources/assets/images/favicon.png">-->
 
         <link href="${pageContext.request.contextPath}/resources/assets/css/jquery-ui.css" rel="stylesheet" type="text/css" />
         <!-- preloader css -->
