@@ -6,8 +6,15 @@
 package com.client.home.service;
 
 import com.client.common.BaseRestTemplate;
+import com.client.common.payload.ServiceResponse;
 import com.client.home.model.GetSchoolSuggestionResponse;
 import com.client.home.model.GetTeacherCountResponse;
+import com.client.home.model.GetTeacherSuggestionRequest;
+import com.client.home.model.GetTeacherSuggestionResponse;
+import com.client.home.model.RateTeacherRequest;
+import com.client.home.model.SearchRateRequest;
+import com.client.home.model.SearchRateResponse;
+import com.google.gson.Gson;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -47,6 +54,54 @@ public class HomeService extends BaseRestTemplate{
         ResponseEntity<GetTeacherCountResponse> response = restTemplate.exchange(url,
         HttpMethod.GET,entity, new ParameterizedTypeReference<GetTeacherCountResponse>() {});
         return response.getBody(); 
+    }
+    
+    public GetTeacherSuggestionResponse getTeacherSuggestion(GetTeacherSuggestionRequest request) throws Exception{        
+        GetTeacherSuggestionResponse resp;
+        String url= getUrl() + "/api/school/teacher-suggestion";
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.add("Authorization", "Bearer " + getToken());
+        
+        Gson gson = new Gson();
+        String entityStr = gson.toJson(request);
+        
+        HttpEntity<String> entity = new HttpEntity<>(entityStr, headers);
+        
+        resp = restTemplate.postForObject(url, entity, GetTeacherSuggestionResponse.class);
+        return resp;
+    }
+    
+    public ServiceResponse rateTeacher(RateTeacherRequest request) throws Exception{        
+        ServiceResponse resp;
+        String url= getUrl() + "/api/school/rate-teacher";
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.add("Authorization", "Bearer " + getToken());
+        
+        Gson gson = new Gson();
+        String entityStr = gson.toJson(request);
+        
+        HttpEntity<String> entity = new HttpEntity<>(entityStr, headers);
+        
+        resp = restTemplate.postForObject(url, entity, ServiceResponse.class);
+        return resp;
+    }
+    
+    public SearchRateResponse searchRate(SearchRateRequest request) throws Exception{        
+        SearchRateResponse resp;
+        String url= getUrl() + "/api/school/search-rate";
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.add("Authorization", "Bearer " + getToken());
+        
+        Gson gson = new Gson();
+        String entityStr = gson.toJson(request);
+        
+        HttpEntity<String> entity = new HttpEntity<>(entityStr, headers);
+        
+        resp = restTemplate.postForObject(url, entity, SearchRateResponse.class);
+        return resp;
     }
     
 }

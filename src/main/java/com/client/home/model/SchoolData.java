@@ -7,6 +7,7 @@ import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 
 import java.io.Serializable;
+import java.util.List;
 
 @Getter
 @Setter
@@ -23,8 +24,10 @@ public class SchoolData implements Serializable {
     String email;
     String first_name;
     String last_name;
+    String full_name;
     String grade;
     String image_url;
     String study;
-
+    List<Rate> rates;
+    Integer rate;
 }
