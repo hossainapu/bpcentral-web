@@ -8,6 +8,15 @@
     <jsp:attribute name="script">
         <script>
             $(function () {
+                
+                $('#searchForm').on('keyup keypress keydown', function (e) {
+                    var keyCode = e.keyCode || e.which;
+                    if (keyCode === 13) {
+                        e.preventDefault();
+                        return false;
+                    }
+                });
+                
                 $("#input_query").autocomplete({
                     source: function (request, callback) {
                         $.ajax({
@@ -133,9 +142,9 @@
                                                     <input name="query" type="text" class="form-control" id="input_query">
                                                 </div>
                                             </div>
-                                            <div class="mb-3">
+<!--                                            <div class="mb-3">
                                                 <button class="btn btn-primary w-100 waves-effect waves-light" type="submit">Search</button>
-                                            </div>
+                                            </div>-->
                                         </form>
 
                                     </div>

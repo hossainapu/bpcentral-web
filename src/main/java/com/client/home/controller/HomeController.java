@@ -127,13 +127,13 @@ public class HomeController {
                     Integer totalRate = 0;
                     if (sd.getRates() != null) {
                         for (Rate r : sd.getRates()) {
-                            if(r.getRate() != null){
+                            if (r.getRate() != null) {
                                 totalRate += r.getRate().intValue();
                             }
                         }
-                        sd.setRate(totalRate/sd.getRates().size());
+                        sd.setRate(totalRate / sd.getRates().size());
                     }
-                    
+
                 }
             }
         } catch (Exception ex) {
@@ -145,8 +145,27 @@ public class HomeController {
     }
 
     @GetMapping("rate-teacher")
-    public ModelAndView rateTeacher(@RequestParam("teacherName") String teacherName, @RequestParam("schoolName") String schoolName, @RequestParam("teacherId") String teacherId) {
+    public ModelAndView rateTeacher(@RequestParam("teacherName") String teacherName, @RequestParam("schoolName") String schoolName, @RequestParam("teacherId") String teacherId, @RequestParam("query") String query) {
         ModelAndView mv = new ModelAndView("home/rate-teacher");
+
+        if (!Utils.isOk(teacherId) && Utils.isOk(query)) {
+            List<SmallTeacher> dataList = new ArrayList<>();
+            try {
+                GetTeacherSuggestionRequest request = new GetTeacherSuggestionRequest();
+                request.setSchoolName(schoolName);
+                request.setTeacherName(query);
+                GetTeacherSuggestionResponse resp = service.getTeacherSuggestion(request);
+                if (resp != null && resp.getSuggestions() != null) {
+                    dataList = resp.getSuggestions();
+                    if(dataList != null && dataList.size() > 0){
+                        teacherName = dataList.get(0).getFull_name();
+                        teacherId = dataList.get(0).getId();
+                    }
+                }
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
 
         mv.addObject("teacherName", teacherName);
         mv.addObject("schoolName", schoolName);
@@ -168,6 +187,7 @@ public class HomeController {
         mv.addObject("teacherName", teacherName);
         mv.addObject("schoolName", schoolName);
         mv.addObject("teacherId", teacherId);
+        mv.addObject("rating", rate.getRate());
         mv.addObject("msg", "Rating Done!");
         return mv;
     }

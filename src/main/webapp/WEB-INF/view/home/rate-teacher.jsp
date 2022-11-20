@@ -8,10 +8,13 @@
     <jsp:attribute name="script">
         <script>
             $(function () {
+                var r = "${rating}";
+                var rate = parseInt(r);
                 var myRater = raterJs({
                     starSize:20,
                     step:.5,
                     element: document.querySelector("#rater-step"),
+                    rating: rate,
                     rateCallback:function(e,t){
                         this.setRating(e);
                         $("#idRating").val(e);
@@ -58,7 +61,7 @@
                                             <div class="flex-1 ms-3">
                                                 <div class="mb-3">
                                                     <label class="form-label">Comments</label>
-                                                    <input name="comment" value="${rate.comment}" type="text" class="form-control" placeholder="Make a comment here .. " required="">
+                                                    <input name="comment" value="" type="text" class="form-control" placeholder="Make a comment here .. " required="">
                                                 </div>
                                             </div>
                                         </div>
